@@ -34,7 +34,8 @@ export const TodoContextProvider = ({ children }) => {
   //   ],
   // };
 
-  const [todo, setTodo] = useState();
+  const [todo, setTodo] = useState([]);
+  const [isPending, setIsPending] = useState(false);
   const [searchVal, setSearchVal] = useState("");
 
   const getTodos = () => {
@@ -42,6 +43,7 @@ export const TodoContextProvider = ({ children }) => {
       .then((res) => res.json())
       .then((res) => {
         if (res) {
+          setIsPending(true);
           setTodo(res);
         } else {
           console.log("todo 가져오기 실패");
@@ -51,7 +53,7 @@ export const TodoContextProvider = ({ children }) => {
 
   const saveTodos = () => {
     console.log("todo: ", todo);
-    if (todo === undefined) return;
+    if (!isPending) return;
     fetch("http://localhost:4500/todo", {
       method: "post",
       headers: {
