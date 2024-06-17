@@ -1,0 +1,94 @@
+.todo_list_box {
+  max-width: 600px;
+  min-height: 600px;
+  margin: 0 auto;
+  text-align: center;
+  position: relative;
+}
+.todo_title_box {
+  width: 100%;
+  height: 40px;
+  margin-bottom: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.todo_title_box h1 {
+  height: 100%;
+}
+.todo_title_box button {
+  width: 40px;
+  height: 40px;
+  border: none;
+  color: #51d3ff;
+  background-color: transparent;
+
+  position: absolute;
+  top: 5px;
+  left: calc(50% + 70px);
+  z-index: 999;
+  cursor: pointer;
+  transition: 0.6s;
+}
+.todo_title_box button.empty {
+  width: 200px;
+  height: 200px;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+.todo_title_box svg {
+  width: 100%;
+  height: 100%;
+}
+.todo_item_box {
+  max-width: 600px;
+  min-height: 600px;
+  box-shadow: inset 0px 0px 10px #ddd;
+  padding: 30px 50px;
+
+  border-radius: 40px;
+}
+.todo_item {
+  height: 40px;
+  margin: 10px 0;
+  display: flex;
+}
+.todo_item_box input {
+  width: 70%;
+  line-height: 40px;
+  padding-left: 50px;
+  font-size: 20px;
+  font-weight: bold;
+  color: black;
+  /* background-color: #51d3ff; */
+
+  outline: none;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+}
+.todo_item_box input.checked {
+  text-decoration: line-through;
+  color: #ddd;
+}
+
+.todo_item button {
+  width: 10%;
+  height: 100%;
+
+  background-color: transparent;
+  border: none;
+  outline: none;
+  cursor: pointer;
+}
+
+.todo_item button svg {
+  color: #51d3ff;
+  width: 100%;
+  height: 100%;
+}
+.todo_item_box .no_search_box {
+  font-size: 24px;
+  transform: translateY(100px);
+}
