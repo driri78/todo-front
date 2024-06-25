@@ -7,7 +7,6 @@ import TodoNosearch from "./TodoNosearch";
 const TodoList = ({ children }) => {
   const { todo, searchVal } = useTodo();
   const [addTodo, setAddTodo] = useState(false);
-
   return (
     <div className="todo_list_box">
       <TodoListTitle addTodo={addTodo} setAddTodo={setAddTodo} />

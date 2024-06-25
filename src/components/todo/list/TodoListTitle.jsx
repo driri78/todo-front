@@ -9,9 +9,7 @@ const TodoListTitle = ({ addTodo, setAddTodo }) => {
       <h1>TodoList</h1>
       {(!searchVal || !todo.length) && (
         <button
-          className={
-            todo !== undefined ? (!todo.length && !addTodo ? "empty" : "") : ""
-          }
+          className={!todo.length && !addTodo ? "empty" : ""}
           title="할일 추가!!"
           onClick={() => {
             setAddTodo(true);

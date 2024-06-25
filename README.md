@@ -1,70 +1,66 @@
-# Getting Started with Create React App
+# useEffect(getTodos, [])로 초기값을 줄 경우
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+```javascript
+const [todo, setTodo] = useState([]);
 
-## Available Scripts
+function getTodos() {
+  const todos = JSON.parse(localStorage.getItem("todos"));
+  if (!todos) return;
+  // 하루 지난지 확인
+  const filterTodos = todos.filter((todo) => {
+    const [year, month, date] = todo.date.split("-"); // ex) 2024-06-26
+    if (new Date().getFullYear() > +year) {
+      return false;
+    }
+    if (new Date().getMonth() > +month) {
+      return false;
+    }
+    if (new Date().getDate() > +date) {
+      return false;
+    }
+    return true;
+  });
+  return setTodo(filterTodos);
+}
 
-In the project directory, you can run:
+useEffect(getTodos, []);
 
-### `npm start`
+// 두번 실행됨 (useState 초기값(안정했을때 포함)을 선언할때 todo값이 바꼈다고 인식한거같음)
+useEffect(() => {
+  localStorage.setItem("todos", JSON.stringify(todo));
+  console.log("todo 바뀜");
+}, [todo]);
+```
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+# 해결 useState 초기값을 함수 리턴값으로 줄 경우
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+```javascript
+// 초기값을 줄때 함수 리턴값으로 준다
+const [todo, setTodo] = useState(getTodos); // 바뀐점
 
-### `npm test`
+function getTodos() {
+  const todos = JSON.parse(localStorage.getItem("todos"));
+  if (!todos) return []; // 바뀐점
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `npm run build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+  // 하루 지난지 확인
+  const filterTodos = todos.filter((todo) => {
+    const [year, month, date] = todo.date.split("-");
+    if (new Date().getFullYear() > +year) {
+      return false;
+    }
+    if (new Date().getMonth() > +month) {
+      return false;
+    }
+    if (new Date().getDate() > +date) {
+      return false;
+    }
+    return true;
+  });
+  return filterTodos;
+}
+//useEffect(() => getTodos(), []); 바뀐점
+useEffect(() => {
+  localStorage.setItem("todos", JSON.stringify(todo));
+  console.log("todo 바뀜");
+}, [todo]);
+```

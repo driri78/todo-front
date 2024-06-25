@@ -3,77 +3,31 @@ import { createContext, useContext, useEffect, useState } from "react";
 const TodoContext = createContext();
 
 export const TodoContextProvider = ({ children }) => {
-  // const todoData = {
-  //   date: "2024-06-14",
-  //   data: [
-  //     {
-  //       id: 1,
-  //       content: "html",
-  //       checked: false,
-  //     },
-  //     {
-  //       id: 2,
-  //       content: "css",
-  //       checked: false,
-  //     },
-  //     {
-  //       id: 3,
-  //       content: "javascript",
-  //       checked: false,
-  //     },
-  //     {
-  //       id: 4,
-  //       content: "react",
-  //       checked: false,
-  //     },
-  //     {
-  //       id: 5,
-  //       content: "express",
-  //       checked: false,
-  //     },
-  //   ],
-  // };
-
-  const [todo, setTodo] = useState([]);
-  const [isPending, setIsPending] = useState(false);
+  const [todo, setTodo] = useState(getTodos);
   const [searchVal, setSearchVal] = useState("");
 
-  const getTodos = () => {
-    fetch("http://localhost:4500/todo")
-      .then((res) => res.json())
-      .then((res) => {
-        if (res) {
-          setIsPending(true);
-          setTodo(res);
-        } else {
-          console.log("todo 가져오기 실패");
-        }
-      });
-  };
+  function getTodos() {
+    const todos = JSON.parse(localStorage.getItem("todos"));
+    if (!todos) return [];
 
-  const saveTodos = () => {
-    console.log("todo: ", todo);
-    if (!isPending) return;
-    fetch("http://localhost:4500/todo", {
-      method: "post",
-      headers: {
-        "content-type": "application/json",
-      },
-      body: JSON.stringify({ todo }),
-    })
-      .then((res) => res.json())
-      .then((res) => {
-        if (res.success) {
-          console.log("저장 성공");
-        } else {
-          console.log("저장 실패");
-        }
-      });
-  };
-  useEffect(getTodos, []);
+    const filterTodos = todos.filter((todo) => {
+      const [year, month, date] = todo.date.split("-");
+      if (new Date().getFullYear() > +year) {
+        return false;
+      }
+      if (new Date().getMonth() > +month) {
+        return false;
+      }
+      if (new Date().getDate() > +date) {
+        return false;
+      }
+      return true;
+    });
+    return filterTodos;
+  }
+
   useEffect(() => {
-    saveTodos();
-    console.log("todo 바뀜");
+    localStorage.setItem("todos", JSON.stringify(todo));
   }, [todo]);
   return (
     <TodoContext.Provider

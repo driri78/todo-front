@@ -3,6 +3,7 @@ import { useTodo } from "../../../context/TodoContext";
 import { IoRemoveCircleSharp } from "react-icons/io5";
 import { PiNotePencilDuotone } from "react-icons/pi";
 import { FaRegSquare } from "react-icons/fa";
+import { format } from "date-fns";
 
 const TodoAddItem = ({ addTodo, setAddTodo }) => {
   const { todo, setTodo } = useTodo();
@@ -14,6 +15,7 @@ const TodoAddItem = ({ addTodo, setAddTodo }) => {
       id: todo.length ? Math.max(...todo.map((item) => item.id)) + 1 : 1,
       content: value.trim(),
       checked: false,
+      date: format(new Date(), "yyyy-MM-dd"),
     };
     value.trim().length !== 0 && setTodo([newTodo, ...todo]);
   };
