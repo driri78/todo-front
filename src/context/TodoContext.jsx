@@ -35,45 +35,18 @@ export const TodoContextProvider = ({ children }) => {
   // };
 
   const [todo, setTodo] = useState([]);
-  const [isPending, setIsPending] = useState(false);
   const [searchVal, setSearchVal] = useState("");
 
-  const getTodos = () => {
-    fetch("http://localhost:4500/todo")
-      .then((res) => res.json())
-      .then((res) => {
-        if (res) {
-          setIsPending(true);
-          setTodo(res);
-        } else {
-          console.log("todo 가져오기 실패");
-        }
-      });
-  };
-
-  const saveTodos = () => {
-    console.log("todo: ", todo);
-    if (!isPending) return;
-    fetch("http://localhost:4500/todo", {
-      method: "post",
-      headers: {
-        "content-type": "application/json",
-      },
-      body: JSON.stringify({ todo }),
-    })
-      .then((res) => res.json())
-      .then((res) => {
-        if (res.success) {
-          console.log("저장 성공");
-        } else {
-          console.log("저장 실패");
-        }
-      });
-  };
-  useEffect(getTodos, []);
   useEffect(() => {
-    saveTodos();
-    console.log("todo 바뀜");
+    const todos = JSON.parse(localStorage.getItem("todos")); // String
+    const filterTodos = todos.filter(
+      (todo) => new Date().getTime() - todo.date < 3600000
+    ); // 하루 지난 todo 제거
+    setTodo(filterTodos);
+  }, []);
+
+  useEffect(() => {
+    localStorage.setItem("todos", JSON.stringify(todo));
   }, [todo]);
   return (
     <TodoContext.Provider

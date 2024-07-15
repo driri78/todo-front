@@ -14,6 +14,7 @@ const TodoAddItem = ({ addTodo, setAddTodo }) => {
       id: todo.length ? Math.max(...todo.map((item) => item.id)) + 1 : 1,
       content: value.trim(),
       checked: false,
+      date: new Date().getTime(),
     };
     value.trim().length !== 0 && setTodo([newTodo, ...todo]);
   };
