@@ -11,6 +11,7 @@ const TodoItem = ({ item }) => {
 
   const [inputVal, setInputVal] = useState(content);
   const [read, setRead] = useState(true);
+
   const checkedHandle = () => {
     const newTodo = todo.map((item) => {
       item.id === id && (item.checked = !checked);
@@ -41,6 +42,7 @@ const TodoItem = ({ item }) => {
   useEffect(() => {
     !read && editRef.current.focus();
   }, [read]);
+
   return (
     <form
       className="todo_item"
@@ -61,7 +63,9 @@ const TodoItem = ({ item }) => {
           read && checkedHandle();
         }}
         onChange={(e) => setInputVal(e.target.value)}
-        onBlur={editHandle}
+        onBlur={() => {
+          if (!read) editHandle();
+        }}
         value={inputVal}
         readOnly={read}
       />

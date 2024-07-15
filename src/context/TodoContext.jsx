@@ -3,37 +3,6 @@ import { createContext, useContext, useEffect, useState } from "react";
 const TodoContext = createContext();
 
 export const TodoContextProvider = ({ children }) => {
-  // const todoData = {
-  //   date: "2024-06-14",
-  //   data: [
-  //     {
-  //       id: 1,
-  //       content: "html",
-  //       checked: false,
-  //     },
-  //     {
-  //       id: 2,
-  //       content: "css",
-  //       checked: false,
-  //     },
-  //     {
-  //       id: 3,
-  //       content: "javascript",
-  //       checked: false,
-  //     },
-  //     {
-  //       id: 4,
-  //       content: "react",
-  //       checked: false,
-  //     },
-  //     {
-  //       id: 5,
-  //       content: "express",
-  //       checked: false,
-  //     },
-  //   ],
-  // };
-
   const [todo, setTodo] = useState([]);
   const [searchVal, setSearchVal] = useState("");
 
